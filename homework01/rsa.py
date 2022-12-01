@@ -14,6 +14,7 @@ def is_prime(num: int) -> bool:
     False
     """
     
+
     for delitel in range(2, (num//2) + 1):
         if num % delitel == 0:
             return False
