@@ -1,3 +1,4 @@
+length = 26
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -11,15 +12,13 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    text = input()
-    shift = 3
-    def encrypt(text, shift):
-        for i in range(len(text)):
-            char = text[i]
-        if (char.isupper()):
-            ciphertext += chr((ord(char) + shift - 65) % 26 + 65)
+    def encrypt(plaintext, shift):
+        for i in range(len(plaintext)):
+            char = plaintext[i]
+        if char.isupper():
+            ciphertext += chr((ord(char) + shift - ord("A")) % length + ord("A"))
         elif char.islower():
-            ciphertext += chr((ord(char) + shift - 97) % 26 + 97)
+            ciphertext += chr((ord(char) + shift - ord("a")) % length + ord("a"))
         else:
             ciphertext += char
     return ciphertext
@@ -38,14 +37,12 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    def decrypt(text, shift):
-        result = ""
-        for i in range(len(text)):
-            char = text[i]
-            if char.isupper():
-                result += chr((ord(char) - shift - 65) % 26 + 65)
-            elif char.islower():
-                result += chr((ord(char) - shift - 97) % 26 + 97)
-            else:
-                result += char
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]
+        if char.isupper():
+            plaintext += chr((ord(char) - shift - ord("A")) % length + ord("A"))
+        elif char.islower():
+            plaintext += chr((ord(char) - shift - ord("a")) % length + ord("a"))
+        else:
+            plaintext += char
     return plaintext
