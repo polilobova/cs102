@@ -1,3 +1,6 @@
+Up_start = ord("A")
+Low_start = ord("a")
+Length = 26
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
