@@ -1,6 +1,5 @@
 import random
 import typing as tp
-import math
 
 
 def is_prime(num: int) -> bool:
@@ -13,7 +12,7 @@ def is_prime(num: int) -> bool:
     >>> is_prime(8)
     False
     """
-    
+
     for delitel in range(2, (num//2) + 1):
         if num % delitel == 0:
             return False
