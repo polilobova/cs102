@@ -1,3 +1,6 @@
+Up_start = ord("A")
+Low_start = ord("a")
+Length = 26
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -9,7 +12,14 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    length = len(keyword)
+    for pos, elem in enumerate(plaintext):
+        if elem.isupper():
+            ciphertext += chr(Up_start + (ord(elem) + (ord(keyword[pos%length]) - 2 * Up_start)) % Length)
+        elif elem.islower():
+            ciphertext += chr(Low_start + (ord(elem) + (ord(keyword[pos%length]) - 2 * Low_start)) % Length)
+        else:
+            ciphertext += elem
     return ciphertext
 
 
@@ -24,5 +34,12 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    length = len(keyword)
+    for pos, elem in enumerate(cipher_text):
+        if elem.isupper():
+            ciphertext += chr(Up_start + (ord(elem) - ord(keyword[pos%length])) % Length)
+        elif elem.islower():
+            ciphertext += chr(Low_start + (ord(elem) - ord(keyword[pos%length])) % Length)
+        else:
+            ciphertext += elem
     return plaintext
