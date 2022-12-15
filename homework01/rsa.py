@@ -12,7 +12,7 @@ def is_prime(num: int) -> bool:
     >>> is_prime(8)
     False
     """
-    for delitel in range(2, (num // 2) + 1):
+    for delitel in range(3, int(num ** (1 / 2)) + 1, 2):
         if num % delitel == 0:
             return False
     return True
@@ -26,12 +26,11 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    while a != 0 and b != 0:
-        if a > b:
-            a = a % b
-        else:
-            b = b % a
-    return (a + b)
+    if b == 0:
+        return a
+    while a % b != 0:
+        a, b = b, a
+    return b
 
 
 
