@@ -37,7 +37,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    return [values[i:i + n] for i in range(0, len(values), n)]
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -49,7 +49,8 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    print(grid.pop(pos[0]))
+    row, col = pos
+    return grid[row]
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -64,7 +65,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     a = []
     for i, row in enumerate(grid):
         a.append(grid[i][pos[1]])
-    print(a)
+    return a
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -78,8 +79,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
     block = []
-    row_begin = pos[0] // 3*3
-    col_begin = pos[1] // 3*3
+    row_begin = pos[0] // 3 * 3
+    col_begin = pos[1] // 3 * 3
     for i in range(row_begin, row_begin + 3):
         block.extend([grid[i][j] for j in range(col_begin, col_begin + 3)])
     return block
@@ -96,7 +97,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     """
     for i in range(len(grid)):
         for j in range(len(grid)):
-            if grid[i][j] == '.':
+            if grid[i][j] == ".":
                 return (i, j)
     return None
 
@@ -122,7 +123,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -143,12 +144,12 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         result = solve(grid)
         if result:
             return result
-    grid[row][col] = '.'
+    grid[row][col] = "."
     return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
     set_num = set("123456789")
     if find_empty_positions(solution):
@@ -184,7 +185,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid = [['.'] * 9 for _ in range(9)]
+    grid = [["."] * 9 for _ in range(9)]
     req = solve(grid)
     if req is not None:
         grid = req
@@ -192,8 +193,8 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     while N != 0:
         row = random.randint(0, 8)
         col = random.randint(0, 8)
-        if grid[row][col] != '.':
-            grid[row][col] = '.'
+        if grid[row][col] != ".":
+            grid[row][col] = "."
             N = N - 1
     return grid
 
