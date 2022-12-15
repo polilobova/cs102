@@ -4,6 +4,7 @@ import typing as tp
 
 T = tp.TypeVar("T")
 
+
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
@@ -13,6 +14,7 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
 
 
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
+    """Создание судоку"""
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
     return grid
@@ -29,7 +31,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     print()
 
 
-def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
+def group(values: tp.List[T], num: int) -> tp.List[tp.List[T]]:
     """
     Сгруппировать значения values в список, состоящий из списков по n элементов
     >>> group([1,2,3,4], 2)
@@ -37,7 +39,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    return [values[i : i + n] for i in range(0, len(values), n)]
+    return [values[i : i + num] for i in range(0, len(values), num)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -62,10 +64,10 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    a = []
-    for i, row in enumerate(grid):
-        a.append(grid[i][pos[1]])
-    return a
+    array = []
+    for i in range(len(grid)):
+        array.append(grid[i][pos[1]])
+    return array
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -164,7 +166,8 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 return False
     return True
 
-def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
+
+def generate_sudoku(number: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
@@ -189,14 +192,15 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     req = solve(grid)
     if req is not None:
         grid = req
-    N = 0 if N >= 81 else 81 - N
-    while N != 0:
+    number = 0 if number >= 81 else 81 - number
+    while number != 0:
         row = random.randint(0, 8)
         col = random.randint(0, 8)
         if grid[row][col] != ".":
             grid[row][col] = "."
-            N = N - 1
+            number = number - 1
     return grid
+
 
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
