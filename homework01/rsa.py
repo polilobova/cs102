@@ -1,3 +1,4 @@
+"""rsa code"""
 import random
 import typing as tp
 
@@ -37,6 +38,7 @@ def gcd(num_1: int, num_2: int) -> int:
 
 
 def modif(evclid_1: int, phi: int) -> int:
+    """necessary modifications before performing multiplicative_inverse"""
     if evclid_1 == 0:
         return (phi, 0, 1)
     else:
@@ -58,6 +60,7 @@ def multiplicative_inverse(evclid_1, evclid_2):
 
 
 def generate_keypair(first: int, second: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """generating keypair for chipher"""
     if not (is_prime(first) and is_prime(second)):
         raise ValueError("Both numbers must be prime.")
     elif first == second:
@@ -79,18 +82,20 @@ def generate_keypair(first: int, second: int) -> tp.Tuple[tp.Tuple[int, int], tp
     # Public key is (evclid, num) and private key is (delit, num)
     return ((evclid, num), (delit, num))
 
-def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+def encrypt(prov_key: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    """encripting plaintext"""
     # Unpack the key into it's components
-    key, num = pk
+    key, num = prov_key
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
     cipher = [(ord(char) ** key) % num for char in plaintext]
     # Return the array of bytes
     return cipher
 
-def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+def decrypt(provkey: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """decripting a chiphertext"""
     # Unpack the key into its components
-    key, num = pk
+    key, num = provkey
     # Generate the plaintext based on the ciphertext and key using a^b mod m
     plain = [chr((char**key) % num) for char in ciphertext]
     # Return the array of bytes as a string
@@ -98,10 +103,10 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
 
 if __name__ == "__main__":
     print("RSA Encrypter/ Decrypter")
-    num_1 = int(input("Enter a prime number (17, 19, 23, etc): "))
-    num_2 = int(input("Enter another prime number (Not one you entered above): "))
+    num_a = int(input("Enter a prime number (17, 19, 23, etc): "))
+    num_b = int(input("Enter another prime number (Not one you entered above): "))
     print("Generating your public/private keypairs now . . .")
-    public, private = generate_keypair(num_1, num_2)
+    public, private = generate_keypair(num_a, num_b)
     print("Your public key is ", public, " and your private key is ", private)
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
