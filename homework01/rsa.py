@@ -18,7 +18,7 @@ def is_prime(num: int) -> bool:
     return True
 
 
-def gcd(a: int, b: int) -> int:
+def gcd(num_1: int, num_2: int) -> int:
     """
     Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
@@ -26,80 +26,80 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    if b == 0:
-        return a
-    while a % b != 0:
-        a, b = b, a % b
-    return b
+    if num_2 == 0:
+        return num_1
+    while num_1 % num_2 != 0:
+        num_1, num_2 = num_2, num_1 % num_2
+    return num_2
 
 
 
-def modif(e: int, phi: int) -> int:
-    if e == 0:
+def modif(evclid_1: int, phi: int) -> int:
+    if evclid_1 == 0:
         return (phi, 0, 1)
     else:
-        g, y, x = modif(phi % e, e)
-        return (g, x - (phi // e) * y, y)
+        res, y_0, x_0 = modif(phi % evclid_1, evclid_1)
+        return (res, x_0 - (phi // evclid_1) * y_0, y_0)
 
-def multiplicative_inverse(e, m):
+def multiplicative_inverse(evclid_1, evclid_2):
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    g, x, y = modif(e, m)
-    if g != 1:
-        raise Exception('problem')
+    res, x_0, y_0 = modif(evclid_1, evclid_2)
+    if res != 1:
+        raise Exception("problem")
     else:
-        return x % m
+        return x_0 % evclid_2
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
-    if not (is_prime(p) and is_prime(q)):
+def generate_keypair(first: int, second: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    if not (is_prime(first) and is_prime(second)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
-        raise ValueError("p and q cannot be equal")
-    # n = pq
-    n = p * q
+    elif first == second:
+        raise ValueError("first and second cannot be equal")
+    # num = pq
+    num = first * second
     # phi = (p-1)(q-1)
-    phi = (p - 1) * (q - 1)
-    # Choose an integer e such that e and phi(n) are coprime
-    e = random.randrange(1, phi)
-    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
-    g = gcd(e, phi)
-    while g != 1:
-        e = random.randrange(1, phi)
-        g = gcd(e, phi)
+    phi = (first - 1) * (second - 1)
+    # Choose an integer evclid such that evclid and phi(num) are coprime
+    evclid = random.randrange(1, phi)
+    # Use Euclid's Algorithm to verify that evclid and phi(num) are coprime
+    res = gcd(evclid, phi)
+    while res != 1:
+        evclid = random.randrange(1, phi)
+        res = gcd(evclid, phi)
     # Use Extended Euclid's Algorithm to generate the private key
-    d = multiplicative_inverse(e, phi)
+    delit = multiplicative_inverse(evclid, phi)
     # Return public and private keypair
-    # Public key is (e, n) and private key is (d, n)
-    return ((e, n), (d, n))
+    # Public key is (evclid, num) and private key is (delit, num)
+    return ((evclid, num), (delit, num))
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     # Unpack the key into it's components
-    key, n = pk
+    key, num = pk
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
-    cipher = [(ord(char) ** key) % n for char in plaintext]
+    cipher = [(ord(char) ** key) % num for char in plaintext]
     # Return the array of bytes
     return cipher
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
-    key, n = pk
+    key, num = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % num) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
 if __name__ == "__main__":
     print("RSA Encrypter/ Decrypter")
-    p = int(input("Enter a prime number (17, 19, 23, etc): "))
-    q = int(input("Enter another prime number (Not one you entered above): "))
+    num_1 = int(input("Enter a prime number (17, 19, 23, etc): "))
+    num_2 = int(input("Enter another prime number (Not one you entered above): "))
     print("Generating your public/private keypairs now . . .")
-    public, private = generate_keypair(p, q)
+    public, private = generate_keypair(num_1, num_2)
     print("Your public key is ", public, " and your private key is ", private)
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
