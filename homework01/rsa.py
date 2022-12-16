@@ -29,7 +29,7 @@ def gcd(a: int, b: int) -> int:
     if b == 0:
         return a
     while a % b != 0:
-        a, b = b, a
+        a, b = b, a % b
     return b
 
 
