@@ -36,13 +36,13 @@ def gcd(num_1: int, num_2: int) -> int:
     return num_2
 
 
-def modif(evclid_1: int, phi: int) -> int:
+def modif(evclid_1: int, phi: int) -> tp.Union[tp.Tuple[int, int, int], int]:
     """necessary modifications before performing multiplicative_inverse"""
     if evclid_1 == 0:
-        return (phi, 0, 1)
+        return phi, 0, 1
     else:
-        res, y_0, x_0 = modif(phi % evclid_1, evclid_1)
-        return (res, x_0 - (phi // evclid_1) * y_0, y_0)
+        res, y_0, x_0 = modif(phi % evclid_1, evclid_1)  # type: ignore
+        return res, x_0 - (phi // evclid_1) * y_0, y_0
 
 
 def multiplicative_inverse(evclid_1, evclid_2):
