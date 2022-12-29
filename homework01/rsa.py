@@ -36,7 +36,6 @@ def gcd(num_1: int, num_2: int) -> int:
     return num_2
 
 
-
 def modif(evclid_1: int, phi: int) -> int:
     """necessary modifications before performing multiplicative_inverse"""
     if evclid_1 == 0:
@@ -44,6 +43,7 @@ def modif(evclid_1: int, phi: int) -> int:
     else:
         res, y_0, x_0 = modif(phi % evclid_1, evclid_1)
         return (res, x_0 - (phi // evclid_1) * y_0, y_0)
+
 
 def multiplicative_inverse(evclid_1, evclid_2):
     """
@@ -82,6 +82,7 @@ def generate_keypair(first: int, second: int) -> tp.Tuple[tp.Tuple[int, int], tp
     # Public key is (evclid, num) and private key is (delit, num)
     return ((evclid, num), (delit, num))
 
+
 def encrypt(prov_key: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     """encripting plaintext"""
     # Unpack the key into it's components
@@ -92,6 +93,7 @@ def encrypt(prov_key: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     # Return the array of bytes
     return cipher
 
+
 def decrypt(provkey: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     """decripting a chiphertext"""
     # Unpack the key into its components
@@ -100,6 +102,7 @@ def decrypt(provkey: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     plain = [chr((char**key) % num) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
+
 
 if __name__ == "__main__":
     print("RSA Encrypter/ Decrypter")
