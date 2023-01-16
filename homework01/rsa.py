@@ -36,27 +36,20 @@ def gcd(num_1: int, num_2: int) -> int:
     return num_2
 
 
-def modif(evclid_1: int, phi: int) -> tp.Union[tp.Tuple[int, int, int], int]:
-    """necessary modifications before performing multiplicative_inverse"""
-    if evclid_1 == 0:
-        return phi, 0, 1
-    else:
-        res, y_0, x_0 = modif(phi % evclid_1, evclid_1)  # type: ignore
-        return res, x_0 - (phi // evclid_1) * y_0, y_0
-
-
-def multiplicative_inverse(evclid_1, evclid_2):
+def multiplicative_inverse(e_num, phi):
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    res, x_0, y_0 = modif(evclid_1, evclid_2)
-    if res != 1:
-        raise Exception("problem")
-    else:
-        return x_0 % evclid_2
+    nom_1, nom_2 = phi, e_num
+    x_var, y_var = 0, 1
+    while nom_2:
+        div = nom_1 // nom_2
+        nom_1, nom_2 = nom_2, nom_1 % nom_2
+        x_var, y_var = y_var, x_var - y_var * div
+    return x_var % phi
 
 
 def generate_keypair(first: int, second: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
