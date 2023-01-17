@@ -58,21 +58,14 @@ def generate_keypair(first: int, second: int) -> tp.Tuple[tp.Tuple[int, int], tp
         raise ValueError("Both numbers must be prime.")
     elif first == second:
         raise ValueError("first and second cannot be equal")
-    # num = pq
     num = first * second
-    # phi = (p-1)(q-1)
     phi = (first - 1) * (second - 1)
-    # Choose an integer evclid such that evclid and phi(num) are coprime
     evclid = random.randrange(1, phi)
-    # Use Euclid's Algorithm to verify that evclid and phi(num) are coprime
     res = gcd(evclid, phi)
     while res != 1:
         evclid = random.randrange(1, phi)
         res = gcd(evclid, phi)
-    # Use Extended Euclid's Algorithm to generate the private key
     delit = multiplicative_inverse(evclid, phi)
-    # Return public and private keypair
-    # Public key is (evclid, num) and private key is (delit, num)
     return ((evclid, num), (delit, num))
 
 
