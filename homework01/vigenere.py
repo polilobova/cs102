@@ -1,7 +1,3 @@
-Up_start = ord("A")
-Low_start = ord("a")
-Length = 26
-
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
@@ -17,9 +13,9 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     length = len(keyword)
     for pos, elem in enumerate(plaintext):
         if elem.isupper():
-            ciphertext += chr(Up_start + (ord(elem) + (ord(keyword[pos % length]) - 2 * Up_start)) % Length)
+            ciphertext += chr(ord("A") + (ord(elem) + (ord(keyword[pos % length]) - 2 * ord("A"))) % 26)
         elif elem.islower():
-            ciphertext += chr(Low_start + (ord(elem) + (ord(keyword[pos % length]) - 2 * Low_start)) % Length)
+            ciphertext += chr(ord("a") + (ord(elem) + (ord(keyword[pos % length]) - 2 * ord("a"))) % 26)
         else:
             ciphertext += elem
     return ciphertext
@@ -30,9 +26,9 @@ def decrypt_vigenere(cipher_text, key):
     length = len(key)
     for pos, elem in enumerate(cipher_text):
         if elem.isupper():
-            result += chr(Up_start + (ord(elem) - ord(key[pos % length])) % Length)
+            result += chr(ord("A") + (ord(elem) - ord(key[pos % length])) % 26)
         elif elem.islower():
-            result += chr(Low_start + (ord(elem) - ord(key[pos % length])) % Length)
+            result += chr(ord("a") + (ord(elem) - ord(key[pos % length])) % 26)
         else:
             result += elem
     return result
