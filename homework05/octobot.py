@@ -5,19 +5,37 @@ import pandas as pd
 import re
 from datetime import datetime, timedelta
 
-bot = telebot.TeleBot('your_bot_token')
+bot = telebot.TeleBot("your_bot_token")
+
+
+def is_valid_date(date: str = "01/01/00", divider: str = "/") -> bool:
+    """Проверяем, что дата дедлайна валидна:
+    - дата не может быть до текущей
+    - не может быть позже, чем через год
+    - не может быть такой, которой нет в календаре
+    - может быть сегодняшним числом
+    - пользователь не должен быть обязан вводить конкретный формат даты
+    (например, только через точку или только через слеш)"""
+    # PUT YOUR CODE HERE
+    pass
+
+
+def is_valid_url(url: str = "") -> bool:
+    """Проверяем, что ссылка рабочая"""
+    # PUT YOUR CODE HERE
+    pass
 
 
 def convert_date(date: str = "01/01/00"):
-    """ Конвертируем дату из строки в datetime """
+    """Конвертируем дату из строки в datetime"""
     # PUT YOUR CODE HERE
     pass
 
 
 def connect_table(message):
-    """ Подключаемся к Google-таблице """
+    """Подключаемся к Google-таблице"""
     url = message.text
-    sheet_id =  # Нужно извлечь id страницы из ссылки на Google-таблицу
+    sheet_id = # Нужно извлечь id страницы из ссылки на Google-таблицу
     try:
         with open("tables.json") as json_file:
             tables = json.load(json_file)
@@ -25,13 +43,13 @@ def connect_table(message):
         tables[title] = {"url": url, "id": sheet_id}
     except FileNotFoundError:
         tables = {0: {"url": url, "id": sheet_id}}
-    with open('tables.json', 'w') as json_file:
+    with open("tables.json", "w") as json_file:
         json.dump(tables, json_file)
     bot.send_message(message.chat.id, "Таблица подключена!")
 
 
 def access_current_sheet():
-    """ Обращаемся к Google-таблице """
+    """Обращаемся к Google-таблице"""
     with open("tables.json") as json_file:
         tables = json.load(json_file)
 
@@ -44,7 +62,7 @@ def access_current_sheet():
 
 
 def choose_action(message):
-    """ Обрабатываем действия верхнего уровня """
+    """Обрабатываем действия верхнего уровня"""
     if message.text == "Подключить Google-таблицу":
         # PUT YOUR CODE HERE
         pass
@@ -60,61 +78,61 @@ def choose_action(message):
 
 
 def choose_subject_action(message):
-    """ Выбираем действие в разделе Редактировать предметы """
+    """Выбираем действие в разделе Редактировать предметы"""
     # PUT YOUR CODE HERE
     pass
 
 
 def choose_deadline_action(message):
-    """ Выбираем действие в разделе Редактировать дедлайн """
+    """Выбираем действие в разделе Редактировать дедлайн"""
     # PUT YOUR CODE HERE
     pass
 
 
 def choose_removal_option(message):
-    """ Уточняем, точно ли надо удалить все """
+    """Уточняем, точно ли надо удалить все"""
     # PUT YOUR CODE HERE
     pass
 
 
 def choose_subject(message):
-    """ Выбираем предмет, у которого надо отредактировать дедлайн """
+    """Выбираем предмет, у которого надо отредактировать дедлайн"""
     # PUT YOUR CODE HERE
     pass
 
 
 def update_subject_deadline(message):
-    """ Обновляем дедлайн """
+    """Обновляем дедлайн"""
     # PUT YOUR CODE HERE
     pass
 
 
 def add_new_subject(message):
-    """ Вносим новое название предмета в Google-таблицу """
+    """Вносим новое название предмета в Google-таблицу"""
     # PUT YOUR CODE HERE
     pass
 
 
 def add_new_subject_url(message):
-    """ Вносим новую ссылку на таблицу предмета в Google-таблицу """
+    """Вносим новую ссылку на таблицу предмета в Google-таблицу"""
     # PUT YOUR CODE HERE
     pass
 
 
 def update_subject(message):
-    """ Обновляем информацию о предмете в Google-таблице """
+    """Обновляем информацию о предмете в Google-таблице"""
     # PUT YOUR CODE HERE
     pass
 
 
 def delete_subject(message):
-    """ Удаляем предмет в Google-таблице """
+    """Удаляем предмет в Google-таблице"""
     # PUT YOUR CODE HERE
     pass
 
 
 def clear_subject_list(message):
-    """ Удаляем все из Google-таблицы """
+    """Удаляем все из Google-таблицы"""
     # PUT YOUR CODE HERE
     pass
 
