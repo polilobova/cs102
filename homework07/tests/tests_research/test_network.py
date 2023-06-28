@@ -3,7 +3,7 @@ import unittest
 
 import responses
 
-from research.network import ego_network
+from homework07.research.network import ego_network
 
 
 class EgoNetworkTestCase(unittest.TestCase):
@@ -12,9 +12,7 @@ class EgoNetworkTestCase(unittest.TestCase):
         target_uids = [1, 2, 3, 4, 5]
         responses.add(
             responses.GET,
-            re.compile(
-                f"https://api.vk.com/method/friends.getMutual\?.*target_uids={target_uids}.*"
-            ),
+            re.compile(f"https://api.vk.com/method/friends.getMutual\?.*target_uids={target_uids}.*"),
             match_querystring=True,
             json={
                 "response": [

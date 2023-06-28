@@ -4,7 +4,7 @@ import unittest
 
 import responses
 
-from vkapi.friends import FriendsResponse, get_friends, get_mutual
+from homework07.vkapi.friends import FriendsResponse, get_friends, get_mutual
 
 
 class FriendsTestCase(unittest.TestCase):
@@ -34,9 +34,7 @@ class FriendsTestCase(unittest.TestCase):
         )
         responses.add(
             responses.GET,
-            re.compile(
-                f"https://api.vk.com/method/friends.getMutual\?.*target_uids={target_uid}.*"
-            ),
+            re.compile(f"https://api.vk.com/method/friends.getMutual\?.*target_uids={target_uid}.*"),
             match_querystring=True,
             json={
                 "response": [
