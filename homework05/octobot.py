@@ -2,10 +2,10 @@ import json
 import re
 from datetime import datetime, timedelta
 
-import gspread
-import pandas as pd
-import requests
-import telebot
+import gspread  # type: ignore
+import pandas as pd  # type: ignore
+import requests  # type: ignore
+import telebot  # type: ignore
 from dateutil import relativedelta
 
 bot = telebot.TeleBot("6033201656:AAFV4N5fKWUyTqg5gSSv8HsnZvmPerN_OPA")
