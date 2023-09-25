@@ -10,6 +10,7 @@ from dateutil import relativedelta
 
 bot = telebot.TeleBot("6033201656:AAFV4N5fKWUyTqg5gSSv8HsnZvmPerN_OPA")
 
+
 # done
 def is_valid_date(date: str = "01/01/00", divider: str = "/") -> bool:
     """Проверяем, что дата дедлайна валидна:
