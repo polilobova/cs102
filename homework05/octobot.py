@@ -394,4 +394,5 @@ def start(message):
     bot.register_next_step_handler(info, choose_action)
 
 
-# bot.infinity_polling()
+if __name__ == "__main__":
+    bot.infinity_polling()
