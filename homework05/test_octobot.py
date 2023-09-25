@@ -1,6 +1,7 @@
 import unittest
 from datetime import datetime
 
+import gspread  # type: ignore
 import octobot
 
 
