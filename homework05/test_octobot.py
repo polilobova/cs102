@@ -4,7 +4,6 @@ from datetime import datetime
 import octobot
 
 
-
 class TestOctobot(unittest.TestCase):
     def test_is_valid_date(self):
         self.assertFalse(octobot.is_valid_date("29/02/23", "/"))
