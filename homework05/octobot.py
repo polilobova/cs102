@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 
 import gspread  # type: ignore
 import pandas as pd  # type: ignore
-import requests
+import requests  # type: ignore
 import telebot  # type: ignore
-from dateutil import relativedelta
+from dateutil import relativedelta  # type: ignore
 
 bot = telebot.TeleBot("6033201656:AAFV4N5fKWUyTqg5gSSv8HsnZvmPerN_OPA")
 
