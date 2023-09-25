@@ -385,7 +385,7 @@ def start(message):
     try:
         json_file = open("tables.json")
     except FileNotFoundError:
-        start_markup.row("Подключить Google-таблицу") #
+        start_markup.row("Подключить Google-таблицу")
     else:
         start_markup.row("Посмотреть дедлайны на ближайшие 7 дней")
         start_markup.row("Редактировать дедлайн")
