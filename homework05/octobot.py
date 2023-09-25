@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 import gspread  # type: ignore
 import pandas as pd  # type: ignore
-import requests  # type: ignore
+import requests
 import telebot  # type: ignore
 from dateutil import relativedelta
 
