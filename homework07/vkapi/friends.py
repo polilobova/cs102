@@ -3,8 +3,10 @@ import math
 import time
 import typing as tp
 
-from vkapi import config, session
-from vkapi.exceptions import APIError
+from homework07.vkapi import config
+from homework07.vkapi.session import Session
+
+# from homework07.vkapi.exceptions import APIError
 
 QueryParams = tp.Optional[tp.Dict[str, tp.Union[str, int]]]
 
@@ -28,7 +30,21 @@ def get_friends(
     :param fields: Список полей, которые нужно получить для каждого пользователя.
     :return: Список идентификаторов друзей пользователя или список пользователей.
     """
-    pass
+    domain = config.VK_CONFIG["domain"]
+    access_token = config.VK_CONFIG["access_token"]
+    version_ = config.VK_CONFIG["version"]
+    fields = ", ".join(fields) if fields else ""
+
+    base = f"{domain}"
+    url = f"friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&offset={offset}&count={count}&v={version_}"
+    session_ = Session(base)
+    get_url = session_.get(url)
+    try:
+        response = FriendsResponse(get_url.json()["response"]["count"], get_url.json()["response"]["items"])
+    except KeyError:
+        response = get_url.json()
+        print(response)
+    return response
 
 
 class MutualFriends(tp.TypedDict):
@@ -57,4 +73,41 @@ def get_mutual(
     :param offset: Смещение, необходимое для выборки определенного подмножества общих друзей.
     :param progress: Callback для отображения прогресса.
     """
-    pass
+    domain = config.VK_CONFIG["domain"]
+    access_token = config.VK_CONFIG["access_token"]
+    version_ = config.VK_CONFIG["version"]
+    session_ = Session(domain)
+    results_of_requests = []
+    if target_uids:
+        for i in range(((len(target_uids) - 1) // 100) + 1):
+            try:
+                url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uids={','.join(list(map(str, target_uids)))}&count={count}&offset={i * 100}&v={version_}"
+                friends = session_.get(url)
+                for friend in friends.json()["response"]:
+                    results_of_requests.append(
+                        MutualFriends(
+                            id=friend["id"],
+                            common_friends=list(map(int, friend["common_friends"])),
+                            common_count=friend["common_count"],
+                        )
+                    )
+            except KeyError:
+                pass
+            time.sleep(0.34)
+        return results_of_requests
+    try:
+        url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uid={target_uid}&count={count}&offset={offset}&v={version_}"
+        friends = session_.get(url)
+        results_of_requests.extend(friends.json()["response"])
+    except:
+        pass
+    return results_of_requests
+
+
+if __name__ == "__main__":
+    friends_response = get_friends(user_id=560176709, fields=["nickname"])
+    users = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
+    print("Количество активных пользователей: ", len(users))
+    mutual_friends = get_mutual(source_uid=560176709, target_uid=258283911, count=len(users))
+    print("Количество общих друзей: ", len(mutual_friends))
+    print("Список общих друзей: ", mutual_friends)
